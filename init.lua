@@ -51,9 +51,9 @@ minetest.register_node("holo:socle", {
 			puncher:get_inventory():remove_item("main", item)
 			holospwan({x=pos.x,y=pos.y,z=pos.z},item)
 			minetest.env:get_meta(pos):set_string("item",item)
-		elseif actif=="" then
+		elseif actif=="" and not(mitem=="") then
 			holospwan({x=pos.x,y=pos.y,z=pos.z},mitem)
-		else
+		elseif not(actif=="") then
 			actif:remove()
 		end
 	end,
