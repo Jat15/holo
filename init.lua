@@ -6,7 +6,7 @@ Licence CC-BY-SA for image
 
 --Fuction
 
-function holospwan(pos, itemname)
+local function holospwan(pos, itemname)
 	local obj = minetest.env:add_entity(pos, "holo:item")
 	obj:get_luaentity():set_item(itemname)
 	return obj
