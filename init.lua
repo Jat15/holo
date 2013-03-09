@@ -1,7 +1,8 @@
 --[[
 Holo ver 0.1 par Jat
 Licence GPLv2 or later for code
-Licence CC-BY-SA for image
+Image by AndrOn
+Licence WTFPL
 --]]
 
 --Fuction
