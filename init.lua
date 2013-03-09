@@ -32,6 +32,7 @@ minetest.register_node("holo:socle", {
 	legacy_wallmounted = true,
 	sounds = default.node_sound_defaults(),
 	on_construct = function(pos)
+		minetest.env:get_meta(pos):set_int("wear",0)
 		minetest.env:get_meta(pos):set_string("item","")
 		minetest.env:get_meta(pos):set_string("player","")
 	end,
@@ -49,6 +50,7 @@ minetest.register_node("holo:socle", {
 			end
 		end
 		if mitem=="" and not(item=="") then
+			minetest.env:get_meta(pos):set_int("wear",puncher:get_wielded_item():get_wear())
 			puncher:get_inventory():remove_item("main", item)
 			holospwan({x=pos.x,y=pos.y,z=pos.z},item)
 			minetest.env:get_meta(pos):set_string("item",item)
@@ -65,6 +67,7 @@ minetest.register_node("holo:socle", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local old = oldmetadata.fields
 		local mitem = old.item
+		local mwear = old.wear
 		local listobj=minetest.env:get_objects_inside_radius(pos, 0)
 		local actif=""
 		for i=1,table.getn(listobj) do
@@ -73,7 +76,7 @@ minetest.register_node("holo:socle", {
 			end
 		end
 		if not(mitem=="") then
-			digger:get_inventory():add_item('main',mitem)
+			digger:get_inventory():add_item('main',mitem.." 1 "..mwear )
 			if not(actif=="") then
 				actif:remove()
 			end
