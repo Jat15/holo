@@ -75,7 +75,7 @@ minetest.register_node("holo:socle", {
 				actif=listobj[i]
 			end
 		end
-		if not(mitem=="") then
+		if not(mitem==nil) then
 			digger:get_inventory():add_item('main',mitem.." 1 "..mwear )
 			if not(actif=="") then
 				actif:remove()
