@@ -8,7 +8,7 @@ Licence WTFPL
 --Fuction
 
 local function holospwan(pos, itemname)
-	local obj = minetest.env:add_entity(pos, "holo:item")
+	local obj = minetest.add_entity(pos, "holo:item")
 	obj:get_luaentity():set_item(itemname)
 	return obj
 end
@@ -32,17 +32,17 @@ minetest.register_node("holo:socle", {
 	legacy_wallmounted = true,
 	sounds = default.node_sound_defaults(),
 	on_construct = function(pos)
-		minetest.env:get_meta(pos):set_int("wear",0)
-		minetest.env:get_meta(pos):set_string("item","")
-		minetest.env:get_meta(pos):set_string("player","")
+		minetest.get_meta(pos):set_int("wear",0)
+		minetest.get_meta(pos):set_string("item","")
+		minetest.get_meta(pos):set_string("player","")
 	end,
 	after_place_node = function(pos, placer)
-		minetest.env:get_meta(pos):set_string("player",placer:get_player_name())
+		minetest.get_meta(pos):set_string("player",placer:get_player_name())
 	end,
 	on_punch = function(pos, node, puncher)
 		local item = puncher:get_wielded_item():get_name()
-		local mitem=minetest.env:get_meta(pos):get_string("item")
-		local listobj=minetest.env:get_objects_inside_radius(pos, 0)
+		local mitem=minetest.get_meta(pos):get_string("item")
+		local listobj=minetest.get_objects_inside_radius(pos, 0)
 		local actif=""
 		for i=1,table.getn(listobj) do
 			if not(listobj[i]:is_player()) and listobj[i]:get_luaentity().itemname==mitem then
@@ -50,10 +50,10 @@ minetest.register_node("holo:socle", {
 			end
 		end
 		if mitem=="" and not(item=="") then
-			minetest.env:get_meta(pos):set_int("wear",puncher:get_wielded_item():get_wear())
+			minetest.get_meta(pos):set_int("wear",puncher:get_wielded_item():get_wear())
 			puncher:get_inventory():remove_item("main", item)
 			holospwan({x=pos.x,y=pos.y,z=pos.z},item)
-			minetest.env:get_meta(pos):set_string("item",item)
+			minetest.get_meta(pos):set_string("item",item)
 		elseif actif=="" and not(mitem=="") then
 			holospwan({x=pos.x,y=pos.y,z=pos.z},mitem)
 		elseif not(actif=="") then
@@ -61,14 +61,14 @@ minetest.register_node("holo:socle", {
 		end
 	end,
 	can_dig = function(pos,player)
-		local mplayer = minetest.env:get_meta(pos):get_string("player")
+		local mplayer = minetest.get_meta(pos):get_string("player")
 		return mplayer==player:get_player_name() or mplayer==""
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local old = oldmetadata.fields
 		local mitem = old.item
 		local mwear = old.wear
-		local listobj=minetest.env:get_objects_inside_radius(pos, 0)
+		local listobj=minetest.get_objects_inside_radius(pos, 0)
 		local actif=""
 		for i=1,table.getn(listobj) do
 			if not(listobj[i]:is_player()) and listobj[i]:get_luaentity().itemname==mitem then
