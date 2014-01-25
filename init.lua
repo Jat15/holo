@@ -39,8 +39,8 @@ minetest.register_node("holo:socle", {
 	after_place_node = function(pos, placer)
 		minetest.get_meta(pos):set_string("player",placer:get_player_name())
 	end,
-	on_punch = function(pos, node, puncher)
-		local item = puncher:get_wielded_item():get_name()
+	on_rightclick = function(pos, node, clicker, itemstack)
+		local item = itemstack:get_name()
 		local mitem=minetest.get_meta(pos):get_string("item")
 		local listobj=minetest.get_objects_inside_radius(pos, 0)
 		local actif=""
@@ -50,8 +50,8 @@ minetest.register_node("holo:socle", {
 			end
 		end
 		if mitem=="" and not(item=="") then
-			minetest.get_meta(pos):set_int("wear",puncher:get_wielded_item():get_wear())
-			puncher:get_inventory():remove_item("main", item)
+			minetest.get_meta(pos):set_int("wear",itemstack:get_wear())
+			itemstack:take_item(1)
 			holospwan({x=pos.x,y=pos.y,z=pos.z},item)
 			minetest.get_meta(pos):set_string("item",item)
 		elseif actif=="" and not(mitem=="") then
