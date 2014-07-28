@@ -145,9 +145,6 @@ minetest.register_entity("holo:item", {
 	get_staticdata = function(self)
 		return self.itemname
 	end,
-	on_punch = function(self, hitter)
-		self.object:remove()
-	end,
 })
 
 
